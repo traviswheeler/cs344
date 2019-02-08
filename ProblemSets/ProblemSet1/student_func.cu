@@ -32,6 +32,12 @@
 //so that the entire image is processed.
 
 #include "utils.h"
+#include <stdio.h>
+
+// You can use these to set the x- and y- dimensions of a block.
+// Your choice for these should impact how you divide a grid into blocks.
+#define BLOCK_X 1
+#define BLOCK_Y 1
 
 __global__
 void rgba_to_greyscale(const uchar4* const rgbaImage,
@@ -50,17 +56,30 @@ void rgba_to_greyscale(const uchar4* const rgbaImage,
   //First create a mapping from the 2D block and grid locations
   //to an absolute 2D location in the image, then use that to
   //calculate a 1D offset
+  const dim3 blockDim(BLOCK_X, BLOCK_Y);
+  const int blockRow =  ?;
+  const int blockCol =  ?;
+  const int row      =  ?;
+  const int col      =  ?;
+
 }
 
 void your_rgba_to_greyscale(const uchar4 * const h_rgbaImage, uchar4 * const d_rgbaImage,
                             unsigned char* const d_greyImage, size_t numRows, size_t numCols)
 {
+  //Note: h_rgbaImage is passed in only so that you can run serial calculations if you wish.
+  //The d_rgbaImage data has already been copied to the device in HW1.cpp), and d_greyImage will be
+  //copied back (in main.cpp)
+
   //You must fill in the correct sizes for the blockSize and gridSize
   //currently only one block with one thread is being launched
-  const dim3 blockSize(1, 1, 1);  //TODO
-  const dim3 gridSize( 1, 1, 1);  //TODO
-  rgba_to_greyscale<<<gridSize, blockSize>>>(d_rgbaImage, d_greyImage, numRows, numCols);
-  
+  const int numBlockRows = ?;
+  const int numBlockCols = ?; 
+  const dim3 blockDim(BLOCK_X, BLOCK_Y);
+  const dim3 gridDim( 1, 1, 1);  //TODO
+
+  rgba_to_greyscale<<<gridDim, blockDim>>>(d_rgbaImage, d_greyImage, numRows, numCols);
+
   cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
 
 }
