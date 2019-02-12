@@ -101,6 +101,8 @@
 //****************************************************************************
 
 #include "utils.h"
+#include "math.h"
+#include "stdio.h"
 
 __global__
 void gaussian_blur(const unsigned char* const inputChannel,
@@ -129,6 +131,16 @@ void gaussian_blur(const unsigned char* const inputChannel,
   // the value is out of bounds), you should explicitly clamp the neighbor values you read
   // to be within the bounds of the image. If this is not clear to you, then please refer
   // to sequential reference solution for the exact clamping semantics you should follow.
+
+
+  // Hints: 
+  // (1) you'll need to compute the thread's 2D coordinates ... then convert that to 
+  // a 1D coordinate in the image's array representation, watching for out-of-bounds 
+  // "pixels".
+  // (2) You'll implement the stencil here. One method of computing it is provided 
+  // in the channelConvolution() function within reference_calc.cpp
+
+
 }
 
 //This kernel takes in an image represented as a uchar4 and splits
@@ -229,12 +241,22 @@ void your_gaussian_blur(const uchar4 * const h_inputImageRGBA, uchar4 * const d_
   const dim3 gridSize;
 
   //TODO: Launch a kernel for separating the RGBA image into different color channels
+  // Note: we're assuming allocateMemoryAndCopyToGPU() was already called ...
+  separateChannels<<<gridSize,blockSize>>>(d_inputImageRGBA,
+                                           numRows,
+                                           numCols,
+                                           d_red,
+                                           d_green,
+                                           d_blue);
 
   // Call cudaDeviceSynchronize(), then call checkCudaErrors() immediately after
   // launching your kernel to make sure that you didn't make any mistakes.
   cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
 
+
   //TODO: Call your convolution kernel here 3 times, once for each color channel.
+
+
 
   // Again, call cudaDeviceSynchronize(), then call checkCudaErrors() immediately after
   // launching your kernel to make sure that you didn't make any mistakes.
