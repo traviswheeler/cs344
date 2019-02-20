@@ -80,6 +80,7 @@
 */
 
 #include "utils.h"
+#include <stdio.h>
 
 void your_histogram_and_prefixsum(const float* const d_logLuminance,
                                   unsigned int* const d_cdf,
