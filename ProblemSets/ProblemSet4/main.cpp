@@ -42,9 +42,6 @@ int main(int argc, char **argv) {
   std::string template_file;
   std::string output_file;
   std::string reference_file;
-  double perPixelError = 0.0;
-  double globalError   = 0.0;
-  bool useEpsCheck = false;
 
   switch (argc)
   {
@@ -115,9 +112,6 @@ int main(int argc, char **argv) {
 						&h_outputVals[0], &h_outputPos[0],
 						numElems);
 
-  //postProcess(valsPtr, posPtr, numElems, reference_file);
-
-  //compareImages(reference_file, output_file, useEpsCheck, perPixelError, globalError);
 
   thrust::device_ptr<unsigned int> d_outputVals(outputVals);
   thrust::device_ptr<unsigned int> d_outputPos(outputPos);
@@ -129,6 +123,10 @@ int main(int argc, char **argv) {
 
   checkResultsExact(&h_outputVals[0], &h_yourOutputVals[0], numElems);
   checkResultsExact(&h_outputPos[0], &h_yourOutputPos[0], numElems);
+ 
+  //made it here, it passed!
+  std::cerr << "PASS" << std::endl; 
+
 
   checkCudaErrors(cudaFree(inputVals));
   checkCudaErrors(cudaFree(inputPos));

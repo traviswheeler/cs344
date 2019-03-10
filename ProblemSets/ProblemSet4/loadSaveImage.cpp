@@ -32,7 +32,8 @@ void loadImageHDR(const std::string &filename,
   *imagePtr = new float[image.rows * image.cols * image.channels()];
 
   float *cvPtr = image.ptr<float>(0);
-  for (size_t i = 0; i < image.rows * image.cols * image.channels(); ++i)
+  size_t limit = (size_t)(image.rows * image.cols * image.channels());
+  for (size_t i = 0; i < limit; ++i)
     (*imagePtr)[i] = cvPtr[i];
 
   *numRows = image.rows;
@@ -65,7 +66,8 @@ void loadImageRGBA(const std::string &filename,
   *imagePtr = new uchar4[image.rows * image.cols];
 
   unsigned char *cvPtr = imageRGBA.ptr<unsigned char>(0);
-  for (size_t i = 0; i < image.rows * image.cols; ++i) {
+  size_t limit = (size_t)(image.rows * image.cols);
+  for (size_t i = 0; i < limit; ++i) {
     (*imagePtr)[i].x = cvPtr[4 * i + 0];
     (*imagePtr)[i].y = cvPtr[4 * i + 1];
     (*imagePtr)[i].z = cvPtr[4 * i + 2];

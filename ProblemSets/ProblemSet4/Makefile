@@ -1,13 +1,12 @@
-NVCC=/usr/local/cuda-5.0/bin/nvcc
-#NVCC=nvcc
+NVCC=nvcc
 
 ###################################
 # These are the default install   #
 # locations on most linux distros #
 ###################################
 
-OPENCV_LIBPATH=/usr/lib
-OPENCV_INCLUDEPATH=/usr/include
+OPENCV_LIBPATH=/opt/opencv/opencv-3.4.5/lib64
+OPENCV_INCLUDEPATH=/opt/opencv/opencv-3.4.5/include
 
 ###################################################
 # On Macs the default install locations are below #
@@ -16,9 +15,10 @@ OPENCV_INCLUDEPATH=/usr/include
 #OPENCV_LIBPATH=/usr/local/lib
 #OPENCV_INCLUDEPATH=/usr/local/include
 
-OPENCV_LIBS=-lopencv_core -lopencv_imgproc -lopencv_highgui
+OPENCV_LIBS=-lopencv_imgcodecs -lopencv_core -lopencv_imgproc -lopencv_highgui
+CUDA_INCLUDEPATH=/opt/cuda-8.0/include
 
-CUDA_INCLUDEPATH=/usr/local/cuda-5.0/include
+
 # CUDA_INCLUDEPATH=/usr/local/cuda/lib64/include
 # CUDA_INCLUDEPATH=/usr/local/cuda-5.0/include
 # CUDA_INCLUDEPATH=/Developer/NVIDIA/CUDA-5.0/include
@@ -29,11 +29,14 @@ CUDA_INCLUDEPATH=/usr/local/cuda-5.0/include
 
 #CUDA_INCLUDEPATH=/usr/local/cuda/include
 #CUDA_LIBPATH=/usr/local/cuda/lib
-CUDA_LIBPATH=/usr/local/cuda-5.0/lib64
+#CUDA_LIBPATH=/usr/local/cuda-5.0/lib64
+CUDA_LIBPATH=/opt/cuda-8.0/lib64/
 
-NVCC_OPTS=-O3 -arch=sm_20 -Xcompiler -Wall -Xcompiler -Wextra -m64
-
+NVCC_OPTS=-O3 -arch=sm_35 -Xcompiler -Wall -Xcompiler -Wextra -m64
 GCC_OPTS=-O3 -Wall -Wextra -m64
+
+NVCC_OPTS=-O3 -arch=sm_35 -Xcompiler -Wall -Xcompiler  -m64
+GCC_OPTS=-O3 -Wall -m64
 
 student: main.o student_func.o HW4.o loadSaveImage.o compare.o reference_calc.o Makefile
 	$(NVCC) -o HW4 main.o student_func.o HW4.o loadSaveImage.o compare.o reference_calc.o -L $(OPENCV_LIBPATH) $(OPENCV_LIBS) $(NVCC_OPTS)
